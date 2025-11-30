@@ -1,0 +1,25 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: order-service
+
+r2dbc:
+  url: ${SPRING_R2DBC_URL:r2dbc:postgresql://localhost:5433/orderdb}
+  username: ${SPRING_R2DBC_USERNAME:sa}
+  password: ${SPRING_R2DBC_PASSWORD:sa}
+
+catalog:
+  base-url: ${CATALOG_BASE_URL:http://localhost:8081}
+
+logging:
+  level:
+  root: INFO
+  com.example.order: DEBUG
+
+management:
+  endpoints:
+  web:
+  exposure:
+  include: health,info

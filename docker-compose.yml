@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: catalog_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: catalogdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8088:8080"
+
+  catalog-service:
+    build:
+      context: ./catalog-service
+    container_name: catalog_service
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    restart: always
+
+volumes:
+  postgres_data:
